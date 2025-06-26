@@ -25,9 +25,19 @@
  * system headers, pre-emptively include it now.
  */
 #if defined(_MSC_VER) || defined(HAVE_CRTDEFS_H)
+#ifdef errcode
+#define ERRCODE_SAVED__ errcode
+#define ERRCODE_SHOULD_RESTORE__
+#undef errcode
+#endif
 #define errcode __msvc_errcode
 #include <crtdefs.h>
 #undef errcode
+#ifdef ERRCODE_SHOULD_RESTORE__
+#define errcode ERRCODE_SAVED__
+#undef ERRCODE_SAVED__
+#undef ERRCODE_SHOULD_RESTORE__
+#endif
 #endif
 
 /*
